@@ -9,9 +9,9 @@
 06.04 vite შექმნა
 07.04. სამუშაო გეგმის შედგენა
 07.04 Tailwind CSS-ს დაყენება
-07.04
-07.04
-07.04
+07.04 React Router დაყენება
+07.04 საქაღალდეების სტრუქტურა 
+07.04 პირველი კომიტი
 07.04
 07.04
 
@@ -41,8 +41,8 @@
 ## 🚀 ინსტალაცია
 
 ```bash
-git clone https://github.com/[შენი-username]/[repo-name]
-cd [repo-name]
+git clone https://github.com/sasuuu12/elene-xuxua-project.git]
+cd [elene-xuxua-project]
 npm install
 npm run dev
 ```
@@ -77,4 +77,4 @@ npm run dev
 
 ## 👤 ავტორი
 
-**[elene xuxua]** — [[GitHub პროფილის ლინკი](https://github.com/sasuuu12)]
+**[elene xuxua]** — [https://github.com/sasuuu12]
