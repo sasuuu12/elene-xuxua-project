@@ -1,21 +1,3 @@
-// src/data/content.ts
-
-// 1. რესტორნის ძირითადი ინფორმაცია
-export const restaurantInfo = {
-  name: "MOUVELINE",
-  slogan: "Authentic Georgian Wine & Dine Experience",
-  address: "1233 Main Street, Tbilisi, Georgia",
-  phone: "+995 555 123 456",
-  email: "info@mouveline.com",
-  openingHours: "ყოველდღე: 12:00 - 23:00",
-  socialMedia: {
-    facebook: "https://facebook.com/mouveline",
-    instagram: "https://instagram.com/mouveline",
-    twitter: "https://twitter.com/mouveline"
-  }
-};
-
-// 2. ნავიგაციის ლინკები (Header და Footer-ისთვის)
 export const navLinks = [
   { label: "Home", path: "/" },
   { label: "Menu", path: "/menu" },
@@ -24,16 +6,14 @@ export const navLinks = [
   { label: "Contact", path: "/contact" }
 ];
 
-// 3. ჩვენს შესახებ (Homepage-ის "Our Philosophy" სექციისთვის)
 export const aboutContent = {
   title: "Crafting Georgian Flavors Since 2024",
   description: "Mouveline აერთიანებს ქართულ ტრადიციულ გემოებსა და თანამედროვე კულინარიულ ხედვას. ჩვენი მიზანია, თითოეულ სტუმარს შევუქმნათ დაუვიწყარი გამოცდილება, სადაც უმაღლესი ხარისხის კერძები და საუკეთესო ღვინო ერთმანეთს ჰარმონიულად ერწყმის.",
   imageUrl: "https://placehold.co/600x400/C3B1E1/4A0E4E?text=Mouveline+Interior"
 };
 
-// 4. მენიუს კატალოგი (შენი ახალი ინტერფეისის მიხედვით)
+
 export const menuItems = [
-  // სტარტერები
   {
     id: 1,
     name: "იმერული ხაჭაპური",
@@ -53,7 +33,6 @@ export const menuItems = [
     isVegetarian: true
   },
   
-  // მთავარი კერძები
   {
     id: 3,
     name: "ხინკალი (ქალაქური)",
@@ -73,7 +52,7 @@ export const menuItems = [
     isVegetarian: false
   },
 
-  // დესერტები
+
   {
     id: 5,
     name: "ფელამუში",
@@ -84,7 +63,7 @@ export const menuItems = [
     isVegetarian: true
   },
 
-  // სასმელები (ღვინო)
+
   {
     id: 6,
     name: "საფერავი (Mouveline Reserve)",
