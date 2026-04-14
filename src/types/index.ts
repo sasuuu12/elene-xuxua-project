@@ -15,12 +15,3 @@ export interface Navlink {
     path: string;
 }
 
-// 3. ჯავშნის/კონტაქტის ფორმა (მორგებული რესტორანზე)
-export interface ReservationForm {
-    name: string;           // სტუმრის სახელი
-    email: string;
-    phone: string;          // ტელეფონის ნომერი აუცილებელია ჯავშნისთვის
-    date: string;           // ჯავშნის თარიღი
-    time: string;           // ჯავშნის დრო
-    guestsCount: number;    // სტუმრების რაოდენობა
-}

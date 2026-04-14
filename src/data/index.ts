@@ -1,7 +1,6 @@
 export const navLinks = [
   { label: "Home", path: "/" },
   { label: "Menu", path: "/menu" },
-  { label: "Reservation", path: "/reservation" },
   { label: "About", path: "/about" },
   { label: "Contact", path: "/contact" }
 ];
