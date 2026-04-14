@@ -10,6 +10,7 @@ import xachapuri from './assets/Khachapuri.webp';
 import xinkali from './assets/8379b2b0b5a8225d9e4ad76b008fb9be_77448fdb-0c6c-4bec-8ba1-bf48a761ffe4.webp';
 import awewili from './assets/qatmis-salata-bulgarulit.webp';
 import Restaurant from './assets/restora.webp';
+import NotFoundPage from './pages/NotFoundPage'; 
 
 const PageSettings = () => {
   const { pathname } = useLocation();
@@ -53,7 +54,12 @@ function App() {
                 
                 {/* Hero სექცია */}
                 <div className="max-w-6xl mx-auto text-center mb-16">
-                
+                  
+                  {/* მთავარი სათაური უკან დაბრუნებულია! */}
+                  <h1 className="text-5xl md:text-8xl font-black text-[#4A0E4E] mb-4 tracking-tighter italic">
+                    MOUVELINE
+                  </h1>
+
                   <p className="text-xl md:text-2xl text-gray-600 font-medium mb-8 max-w-2xl mx-auto">
                     ადგილი, სადაც შიმშილსა და სტრესს ემშვიდობები. 🍷
                   </p>
@@ -107,6 +113,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </MainLayout>
     </Router>
