@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react'; 
 import Card from '../components/Card';
 import Badge from '../components/Badge';
-import SearchBar from '../components/SearchBar'; // 🌟 შემოვიტანეთ SearchBar
+import SearchBar from '../components/SearchBar'; 
+import { ThemeContext } from '../components/ThemeContext'; 
 
 export interface MenuItem {
   id: number;
@@ -15,11 +16,11 @@ export interface MenuItem {
 const categories = ["ყველა", "Seafood", "Chicken", "Dessert", "Pasta"];
 
 const Menu: React.FC = () => {
+  const { theme } = useContext(ThemeContext); 
+
   const [activeCategory, setActiveCategory] = useState("ყველა");
   const [items, setItems] = useState<MenuItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
-  // 🌟 ახალი სთეითი ძებნისთვის
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -53,23 +54,27 @@ const Menu: React.FC = () => {
     fetchMenu();
   }, [activeCategory]);
 
-  // 🌟 გაფილტვრის ლოგიკა: ვაჩვენებთ მხოლოდ იმ კერძებს, რომლებიც შეიცავენ საძიებო სიტყვას
   const finalFilteredItems = items.filter(item => 
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <section className="py-20 px-4 bg-[#F9F6FC] min-h-screen">
+
+    <section className={`py-20 px-4 min-h-screen transition-colors duration-500 ${
+      theme === 'light' ? 'bg-[#F9F6FC]' : 'bg-[#1a1a1a]'
+    }`}>
       <div className="container mx-auto max-w-6xl">
         
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-extrabold text-[#4A0E4E] mb-4 uppercase tracking-tighter">
+    
+          <h2 className={`text-4xl font-extrabold mb-4 uppercase tracking-tighter transition-colors duration-500 ${
+            theme === 'light' ? 'text-[#4A0E4E]' : 'text-[#EADDF8]'
+          }`}>
             ჩვენი ციფრული მენიუ
           </h2>
           <div className="w-24 h-1 bg-[#4A0E4E] mx-auto rounded-full mb-8" />
         </div>
 
-        {/* 🌟 აქ ჩავსვით SearchBar */}
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
         <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -78,12 +83,14 @@ const Menu: React.FC = () => {
               key={category}
               onClick={() => {
                 setActiveCategory(category);
-                setSearchTerm(""); // ახალ კატეგორიაზე გადასვლისას საძიებო ველი სუფთავდება
+                setSearchTerm(""); 
               }}
               className={`px-6 py-2 rounded-full font-bold transition-all duration-300 ${
                 activeCategory === category
                   ? "bg-[#4A0E4E] text-white shadow-lg"
-                  : "bg-white text-[#4A0E4E] border border-[#C3B1E1] hover:bg-[#F3E8FF]"
+                  : theme === 'light' 
+                    ? "bg-white text-[#4A0E4E] border border-[#C3B1E1] hover:bg-[#F3E8FF]"
+                    : "bg-[#2a2a2a] text-[#EADDF8] border border-gray-700 hover:bg-[#3a3a3a]"
               }`}
             >
               {category}
@@ -97,7 +104,6 @@ const Menu: React.FC = () => {
           </div>
         ) : (
           <>
-            {/* ვამოწმებთ finalFilteredItems-ს და არა items-ს */}
             {finalFilteredItems.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {finalFilteredItems.map((item) => (
@@ -117,7 +123,10 @@ const Menu: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-20 text-gray-500 text-xl font-medium">
+        
+              <div className={`text-center py-20 text-xl font-medium transition-colors duration-500 ${
+                theme === 'light' ? 'text-gray-500' : 'text-gray-400'
+              }`}>
                 "{searchTerm}"-ით კერძი ვერ მოიძებნა 🍽️
               </div>
             )}

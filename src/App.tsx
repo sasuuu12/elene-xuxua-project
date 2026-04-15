@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import MainLayout from './layouts/MainLayout';
 import About from './pages/About';
 import Menu from './pages/Menu';
 import Contact from './pages/Contact';
+import { ThemeContext } from './components/ThemeContext'; // დარწმუნდი, რომ ფაილის გზა სწორია
 
 // სურათების იმპორტი
 import xachapuri from './assets/Khachapuri.webp';
@@ -16,10 +17,10 @@ const PageSettings = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // 1. ყოველ გვერდზე გადასვლისას ავიდეს ზევით
+    // ყოველ გვერდზე გადასვლისას ავიდეს ზევით
     window.scrollTo(0, 0);
 
-    // 2. სათაურის განახლება pathname-ის მიხედვით
+    // სათაურის განახლება
     switch (pathname) {
       case '/':
         document.title = 'MOUVELINE | მთავარი';
@@ -42,81 +43,99 @@ const PageSettings = () => {
 };
 
 function App() {
+  // 🌟 სთეითი დღის/ღამის რეჟიმისთვის
+  const [theme, setTheme] = useState("light");
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   return (
-    <Router>
-      <PageSettings /> 
-      <MainLayout>
-        <Routes>
-          <Route 
-            path="/" 
-            element={
-              <div className="min-h-screen bg-gradient-to-b from-white to-[#F3E8FF] py-20 px-4">
-                
-                {/* Hero სექცია */}
-                <div className="max-w-6xl mx-auto text-center mb-16">
-                  
-                  {/* მთავარი სათაური უკან დაბრუნებულია! */}
-                  <h1 className="text-5xl md:text-8xl font-black text-[#4A0E4E] mb-4 tracking-tighter italic">
-                    MOUVELINE
-                  </h1>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {/* მთავარი კონტეინერი, რომელიც ფერს იცვლის თემის მიხედვით */}
+      <div className={`min-h-screen transition-colors duration-300 ${theme === "light" ? "bg-white text-black" : "bg-[#1a1a1a] text-white"}`}>
+        
+        {/* თემის შესაცვლელი ღილაკი */}
+        <div className="absolute top-4 right-4 z-[100]">
+          <button 
+            onClick={toggleTheme} 
+            className="px-4 py-2 rounded-lg font-bold transition-all shadow-md bg-white text-[#4A0E4E] border border-[#C3B1E1] hover:bg-[#F3E8FF]"
+          >
+            {theme === "light" ? "🌙 ღამე" : "☀️ დღე"}
+          </button>
+        </div>
+        
+        <Router>
+          <PageSettings /> 
+          <MainLayout>
+            <Routes>
+              <Route 
+                path="/" 
+                element={
+                  // მთავარი გვერდის გრადიენტული ფონი
+                  <div className={`min-h-screen py-20 px-4 transition-colors duration-500 ${theme === 'light' ? 'bg-gradient-to-b from-white to-[#F3E8FF]' : 'bg-gradient-to-b from-[#1a1a1a] to-[#2d1b36]'}`}>
+                    
+                    {/* Hero სექცია */}
+                    <div className="max-w-6xl mx-auto text-center mb-16 pt-10">
+                      <h1 className={`text-5xl md:text-8xl font-black mb-4 tracking-tighter italic ${theme === 'light' ? 'text-[#4A0E4E]' : 'text-[#C3B1E1]'}`}>
+                        MOUVELINE
+                      </h1>
 
-                  <p className="text-xl md:text-2xl text-gray-600 font-medium mb-8 max-w-2xl mx-auto">
-                    ადგილი, სადაც შიმშილსა და სტრესს ემშვიდობები. 🍷
-                  </p>
-                  
-                  <Link 
-                    to="/menu"
-                    className="inline-block bg-[#4A0E4E] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-[#3A0B3D] transition-all shadow-xl hover:shadow-purple-300 transform hover:-translate-y-1"
-                  >
-                    აღმოაჩინე მენიუ
-                  </Link>
-                </div>
+                      <p className={`text-xl md:text-2xl font-medium mb-8 max-w-2xl mx-auto ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+                        ადგილი, სადაც შიმშილსა და სტრესს ემშვიდობები. 🍷
+                      </p>
+                      
+                      <Link 
+                        to="/menu"
+                        className="inline-block bg-[#4A0E4E] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-[#3A0B3D] transition-all shadow-xl hover:shadow-purple-300 transform hover:-translate-y-1"
+                      >
+                        აღმოაჩინე მენიუ
+                      </Link>
+                    </div>
 
-                {/* Bento Grid გალერეა */}
-                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-6 h-auto md:h-[750px]">
-                  
-                  {/* მთავარი ფოტო (ინტერიერი) */}
-                  <div className="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-[2rem] shadow-2xl border-4 border-white">
-                    <img 
-                      src={Restaurant} 
-                      alt="Restaurant Interior" 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
-                    <div className="absolute bottom-8 left-8 text-white">
-                      <span className="bg-[#C3B1E1] text-[#4A0E4E] px-4 py-1 rounded-full text-sm font-black uppercase">Interior</span>
-                      <h3 className="text-2xl font-bold mt-2 text-white">დახვეწილი გარემო</h3>
+                    {/* Bento Grid გალერეა */}
+                    <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-6 h-auto md:h-[750px]">
+                      
+                      <div className="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-[2rem] shadow-2xl border-4 border-white/10">
+                        <img 
+                          src={Restaurant} 
+                          alt="Restaurant Interior" 
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60" />
+                        <div className="absolute bottom-8 left-8 text-white">
+                          <span className="bg-[#C3B1E1] text-[#4A0E4E] px-4 py-1 rounded-full text-sm font-black uppercase">Interior</span>
+                          <h3 className="text-2xl font-bold mt-2 text-white">დახვეწილი გარემო</h3>
+                        </div>
+                      </div>
+
+                      <div className="md:col-span-2 relative group overflow-hidden rounded-[2rem] shadow-xl border-4 border-white/10">
+                        <img src={xachapuri} alt="Khachapuri" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                        <div className="absolute bottom-6 left-6">
+                          <span className="bg-white/95 text-[#4A0E4E] px-4 py-1 rounded-xl text-sm font-bold shadow-lg">ცომეული</span>
+                        </div>
+                      </div>
+
+                      <div className="relative group overflow-hidden rounded-[2rem] shadow-xl border-4 border-white/10">
+                        <img src={xinkali} alt="Xinkali" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                      </div>
+
+                      <div className="relative group overflow-hidden rounded-[2rem] shadow-xl border-4 border-white/10">
+                        <img src={awewili} alt="Salad" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                      </div>
                     </div>
                   </div>
-
-                  {/* ხაჭაპური */}
-                  <div className="md:col-span-2 relative group overflow-hidden rounded-[2rem] shadow-xl border-4 border-white">
-                    <img src={xachapuri} alt="Khachapuri" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                    <div className="absolute bottom-6 left-6">
-                      <span className="bg-white/95 text-[#4A0E4E] px-4 py-1 rounded-xl text-sm font-bold shadow-lg">ცომეული</span>
-                    </div>
-                  </div>
-
-                  {/* ხინკალი */}
-                  <div className="relative group overflow-hidden rounded-[2rem] shadow-xl border-4 border-white">
-                    <img src={xinkali} alt="Xinkali" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                  </div>
-
-                  {/* აწეწილი */}
-                  <div className="relative group overflow-hidden rounded-[2rem] shadow-xl border-4 border-white">
-                    <img src={awewili} alt="Salad" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                  </div>
-                </div>
-              </div>
-            } 
-          />
-          <Route path="/about" element={<About />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </MainLayout>
-    </Router>
+                } 
+              />
+              <Route path="/about" element={<About />} />
+              <Route path="/menu" element={<Menu />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </MainLayout>
+        </Router>
+      </div>
+    </ThemeContext.Provider> 
   );
 }
 

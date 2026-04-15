@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
+import { ThemeContext } from "./ThemeContext"; // 🌟 შემოვიტანეთ კონტექსტი
 
-// განვსაზღვროთ რა მონაცემებს იღებს ეს კომპონენტი (TypeScript-ისთვის)
 interface SearchBarProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
@@ -8,8 +8,8 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const { theme } = useContext(ThemeContext); // 🌟 ვიღებთ თემას
 
-  // საიტის ჩატვირთვისას კურსორი ავტომატურად ჩაჯდება
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -35,7 +35,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => {
           placeholder="მოძებნეთ კერძი (მაგ: ხაჭაპური)..." 
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full pl-12 pr-4 py-3 rounded-full border-2 border-[#EADDF8] focus:border-[#4A0E4E] focus:outline-none focus:ring-4 focus:ring-[#C3B1E1]/30 transition-all shadow-sm text-gray-700"
+          className={`w-full pl-12 pr-4 py-3 rounded-full border-2 focus:outline-none focus:ring-4 transition-all shadow-sm ${
+            theme === 'light' 
+              ? 'bg-white border-[#EADDF8] focus:border-[#4A0E4E] focus:ring-[#C3B1E1]/30 text-gray-700' 
+              : 'bg-[#2a2a2a] border-gray-700 focus:border-[#C3B1E1] focus:ring-purple-900/40 text-white placeholder-gray-400'
+          }`}
         />
       </div>
       
