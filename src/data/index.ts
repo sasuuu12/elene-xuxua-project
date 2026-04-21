@@ -1,8 +1,8 @@
 export const navLinks = [
-  { label: "Home", path: "/" },
-  { label: "Menu", path: "/menu" },
-  { label: "About", path: "/about" },
-  { label: "Contact", path: "/contact" }
+  { label: "მთავარი", path: "/" },
+  { label: "მენიუ", path: "/menu" },
+  { label: "ჩვენს შესახებ", path: "/about" },
+  { label: "კონტაქტი", path: "/contact" }
 ];
 
 export const aboutContent = {

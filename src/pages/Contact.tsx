@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import Button from '../components/Button';
-import { ThemeContext } from '../components/ThemeContext'; // 🌟 შემოვიტანეთ კონტექსტი
+import { ThemeContext } from '../components/ThemeContext'; //
 
 const Contact: React.FC = () => {
-  const { theme } = useContext(ThemeContext); // 🌟 ვიღებთ თემას
+  const { theme } = useContext(ThemeContext); 
 
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '' });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -106,5 +106,6 @@ const Contact: React.FC = () => {
     </section>
   );
 };
+
 
 export default Contact;

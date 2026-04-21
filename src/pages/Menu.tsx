@@ -3,6 +3,8 @@ import Card from '../components/Card';
 import Badge from '../components/Badge';
 import SearchBar from '../components/SearchBar'; 
 import { ThemeContext } from '../components/ThemeContext'; 
+import { useAppDispatch } from '../store/hooks';
+import { addToCart } from '../store/CartSlice';
 
 export interface MenuItem {
   id: number;
@@ -13,10 +15,21 @@ export interface MenuItem {
   imageUrl: string;
 }
 
-const categories = ["ყველა", "Seafood", "Chicken", "Dessert", "Pasta"];
+// 🌟 1. ვქმნით ლექსიკონს: ქართული სიტყვა -> ინგლისური კატეგორია API-სთვის
+const categoryMap: Record<string, string> = {
+  "ყველა": "Seafood", // "ყველა"-ს დროს default-ად Seafood წამოიღოს
+  "ზღვის საჭმელი": "Seafood",
+  "ქათამი": "Chicken",
+  "დესერტი": "Dessert",
+  "პასტა": "Pasta"
+};
+
+// ეკრანზე გამოსაჩენი ღილაკებისთვის ვიღებთ მხოლოდ ქართულ სახელებს
+const categories = Object.keys(categoryMap); 
 
 const Menu: React.FC = () => {
   const { theme } = useContext(ThemeContext); 
+  const dispatch = useAppDispatch(); 
 
   const [activeCategory, setActiveCategory] = useState("ყველა");
   const [items, setItems] = useState<MenuItem[]>([]);
@@ -27,8 +40,9 @@ const Menu: React.FC = () => {
     const fetchMenu = async () => {
       setIsLoading(true);
       try {
-        const categoryToFetch = activeCategory === "ყველა" ? "Seafood" : activeCategory;
-        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryToFetch}`);
+        // 🌟 2. API-ს ვუგზავნით ნათარგმნ ინგლისურ სიტყვას (მაგ. Seafood)
+        const apiCategory = categoryMap[activeCategory];
+        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${apiCategory}`);
         const data = await response.json();
         
         if (data.meals) {
@@ -37,7 +51,8 @@ const Menu: React.FC = () => {
             name: meal.strMeal,
             description: "ახალი და გემრიელი კერძი ჩვენი შეფ-მზარეულისგან",
             price: Math.floor(Math.random() * 20) + 10,
-            category: categoryToFetch,
+            // 🌟 3. ბარათის ბეჯზე ვწერთ ქართულ სახელს
+            category: activeCategory === "ყველა" ? "ზღვის საჭმელი" : activeCategory, 
             imageUrl: meal.strMealThumb
           }));
           setItems(formattedData);
@@ -54,19 +69,26 @@ const Menu: React.FC = () => {
     fetchMenu();
   }, [activeCategory]);
 
+  const handleAddToCart = (item: MenuItem) => {
+    dispatch(addToCart({
+      id: item.id,
+      title: item.name, 
+      price: item.price,
+      image: item.imageUrl,
+    }));
+  };
+
   const finalFilteredItems = items.filter(item => 
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-
     <section className={`py-20 px-4 min-h-screen transition-colors duration-500 ${
       theme === 'light' ? 'bg-[#F9F6FC]' : 'bg-[#1a1a1a]'
     }`}>
       <div className="container mx-auto max-w-6xl">
         
         <div className="text-center mb-12">
-    
           <h2 className={`text-4xl font-extrabold mb-4 uppercase tracking-tighter transition-colors duration-500 ${
             theme === 'light' ? 'text-[#4A0E4E]' : 'text-[#EADDF8]'
           }`}>
@@ -111,19 +133,21 @@ const Menu: React.FC = () => {
                     <div className="absolute top-4 left-4 z-10">
                       <Badge text={item.category} variant="secondary" />
                     </div>
-                    <Card 
+                    
+                    <Card
                       title={item.name}
                       description={item.description}
                       image={item.imageUrl}
-                    />
-                    <div className="absolute bottom-6 right-6 bg-[#4A0E4E] text-white px-4 py-1 rounded-lg font-bold">
-                      {item.price} ₾
+                      price={item.price}
+                      onAddToCart={() => handleAddToCart(item)} id={0}                    />
+                    
+                    <div className="absolute top-4 right-4 bg-[#4A0E4E] text-white px-3 py-1 rounded-full font-bold shadow-md">
+                       {item.price} ₾
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-        
               <div className={`text-center py-20 text-xl font-medium transition-colors duration-500 ${
                 theme === 'light' ? 'text-gray-500' : 'text-gray-400'
               }`}>

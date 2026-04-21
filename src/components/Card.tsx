@@ -1,51 +1,44 @@
+// src/components/Card.tsx
 import React, { useContext } from "react";
 import { ThemeContext } from "./ThemeContext"; 
 
 export interface CardProps {
+  id: number;
   title: string;
   image: string;
   description: string;
+  price: number; 
+  item?: any;
+  onAddToCart?: (item?: any) => void; 
 }
 
-const Card: React.FC<CardProps> = ({ title, image, description }) => {
-
+const Card: React.FC<CardProps> = ({ title, image, description, price, item, onAddToCart }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    // 🌟 დავამატეთ hover:scale-105 აქ, მთავარ კონტეინერზე
-    <div className={`rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-300 border flex flex-col h-full ${
-      theme === 'light' ? 'bg-white border-[#C3B1E1]/40' : 'bg-[#2a2a2a] border-gray-700 shadow-purple-900/20'
+    <div className={`rounded-2xl shadow-lg overflow-hidden border transition-all duration-300 flex flex-col h-full relative ${
+      theme === 'light' ? 'bg-white border-purple-100' : 'bg-[#1f1f1f] border-gray-800'
     }`}>
-      {/* სურათის სექცია */}
-      <div className="relative h-48 overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          // სურათის scale ამოვიღეთ, რადგან ახლა მთლიანი ბარათი დიდდება
-          className="w-full h-full object-cover"
-        />
-      </div>
+      <img src={image} loading='lazy' alt={title} className="w-full h-48 object-cover" />
       
-      {/* ტექსტის სექცია */}
       <div className="p-5 flex flex-col flex-grow">
+        <h3 className="text-lg font-bold mb-2">{title}</h3>
+        <p className="text-sm text-gray-500 flex-grow mb-4">{description}</p>
         
-        {/* სათაურის ფერი იცვლება თემის მიხედვით */}
-        <h3 className={`text-lg md:text-xl font-bold mb-3 transition-colors duration-300 ${
-          theme === 'light' ? 'text-[#4A0E4E]' : 'text-[#EADDF8]'
-        }`}>
-          {title}
-        </h3>
-        
-        {/* აღწერის ფერი იცვლება თემის მიხედვით */}
-        <p className={`text-sm md:text-base flex-grow transition-colors duration-500 ${
-          theme === 'light' ? 'text-gray-600' : 'text-gray-400'
-        }`}>
-          {description}
-        </p>
-        
+        <div className="flex justify-between items-center mt-auto">
+          <span className="text-xl font-black text-[#C3B1E1]">{price} ₾</span>
+          
+          <button 
+            onClick={() => onAddToCart && onAddToCart(item)}
+            className="bg-[#4A0E4E] hover:bg-[#C3B1E1] hover:text-[#4A0E4E] text-white px-4 py-2 rounded-xl text-sm font-bold transition-all active:scale-90"
+          >
+            + კალათაში
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Card;
+
+export default React.memo(Card);
