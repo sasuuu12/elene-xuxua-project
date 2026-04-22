@@ -83,7 +83,7 @@ const Menu: React.FC = () => {
   );
 
   return (
-    <section className={`py-20 px-4 min-h-screen transition-colors duration-500 ${
+    <section className={`py-20 px-4 min-h-screen transition-colors duration-500 animate-fade-in ${
       theme === 'light' ? 'bg-[#F9F6FC]' : 'bg-[#1a1a1a]'
     }`}>
       <div className="container mx-auto max-w-6xl">

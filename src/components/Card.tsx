@@ -16,7 +16,7 @@ const Card: React.FC<CardProps> = ({ title, image, description, price, item, onA
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className={`rounded-2xl shadow-lg overflow-hidden border transition-all duration-300 flex flex-col h-full relative ${
+    <div className={`rounded-2xl shadow-lg overflow-hidden border transition-all duration-300 flex flex-col h-full relative animate-fade-in ${
       theme === 'light' ? 'bg-white border-purple-100' : 'bg-[#1f1f1f] border-gray-800'
     }`}>
       <img src={image} loading='lazy' alt={title} className="w-full h-48 object-cover" />

@@ -4,6 +4,9 @@ import { ThemeContext } from './ThemeContext';
 import Cart from '../store/Cart';
 import { useAppSelector } from '../store/hooks';
 
+// 🌟 შემოტანილი კალათის სურათი
+import kalataIcon from '../assets/kalata.webp';
+
 interface HeaderProps {
   links: { name?: string; label?: string; path: string }[];
 }
@@ -11,32 +14,30 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ links }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const { theme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const cartItems = useAppSelector((state) => state.cart.cartItems);
   const totalItems = cartItems.length;
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 border-b ${
+    <header className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 border-b antialiased transform-gpu ${
       theme === 'light' ? 'bg-white/80 border-[#C3B1E1]/20 text-[#4A0E4E]' : 'bg-[#1a1a1a]/90 border-gray-800 text-[#EADDF8]'
     } backdrop-blur-md`}>
       <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
         
-        {/* მარცხენა მხარე: ლოგო */}
+        {/* ლოგო */}
         <Link to="/" className="text-2xl font-black tracking-tighter italic">
           MOUVELINE
         </Link>
 
- 
         <div className="flex items-center gap-8">
           
-   
           <div className="hidden md:flex items-center gap-6 font-bold">
             {links.map((link) => (
               <Link 
                 key={link.path} 
                 to={link.path} 
-                className="hover:text-[#C3B1E1] transition-colors"
+                className="hover:text-[#C3B1E1] transition-colors duration-300 transform-gpu"
               >
                 {link.label || link.name}
               </Link>
@@ -45,18 +46,30 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
 
           <div className="flex items-center gap-4">
             
-
-            <button 
-              onClick={() => setIsCartOpen(!isCartOpen)}
-              className="hidden md:flex relative items-center gap-1 focus:outline-none hover:text-[#C3B1E1] transition-colors font-bold"
+            {/* 🌙 თემის შეცვლის ღილაკი */}
+            <button
+              onClick={toggleTheme}
+              className="hidden md:flex px-3 py-2 rounded-lg font-bold transition-all shadow-sm text-sm border border-[#C3B1E1] bg-white text-[#4A0E4E] hover:bg-[#F3E8FF]"
             >
-              <span>კალათა 🛒</span>
+              {theme === "light" ? "🌙 ღამე" : "☀️ დღე"}
+            </button>
+
+            {/* 🌟 კალათა (კომპიუტერისთვის) - ჩასმულია ლამაზ ყუთში */}
+            <div 
+              onClick={() => setIsCartOpen(!isCartOpen)}
+              className={`hidden md:flex relative items-center justify-center w-11 h-11 rounded-xl focus:outline-none hover:scale-105 transition-all cursor-pointer shadow-sm ${
+                theme === 'light' ? 'bg-[#F3E8FF] hover:bg-[#EADDF8]' : 'bg-[#EADDF8] hover:bg-white'
+              }`}
+            >
+              <img src={kalataIcon} alt="კალათა" className="w-6 h-6 object-contain" />
+              
+              {/* წითელი ნიშნული (Badge) */}
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-3 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full shadow-md border border-white/20">
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[11px] px-2 py-0.5 rounded-full shadow-md font-bold border-2 border-white">
                   {totalItems}
                 </span>
               )}
-            </button>
+            </div>
 
             {/* Hamburger ღილაკი მობილურისთვის */}
             <button 
@@ -70,6 +83,7 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
       </nav> 
 
 
+      {/* მობილურის მენიუ */}
       {isOpen && (
         <div className={`md:hidden flex flex-col items-center gap-4 py-6 font-bold border-t ${
           theme === 'light' ? 'bg-white border-[#C3B1E1]/20' : 'bg-[#1a1a1a] border-gray-800'
@@ -79,30 +93,43 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
               key={link.path} 
               to={link.path} 
               onClick={() => setIsOpen(false)}
-              className="hover:text-[#C3B1E1] transition-colors"
+              className="hover:text-[#C3B1E1] transition-colors duration-300 transform-gpu"
             >
               {link.label || link.name}
             </Link>
           ))}
           
+          {/* 🌙 თემის შეცვლის ღილაკი მობილურისთვის */}
+          <button
+            onClick={toggleTheme}
+            className="mt-2 px-4 py-2 rounded-lg font-bold transition-all shadow-sm border border-[#C3B1E1] bg-white text-[#4A0E4E] hover:bg-[#F3E8FF]"
+          >
+            {theme === "light" ? "🌙 ღამე" : "☀️ დღე"}
+          </button>
 
-          <button 
+          {/* 🌟 კალათა (მობილურისთვის) - ჩასმულია ლამაზ ყუთში */}
+          <div 
             onClick={() => {
               setIsCartOpen(!isCartOpen);
-              setIsOpen(false); // კალათის გახსნისას ჰამბურგერის მენიუ დაიხუროს
+              setIsOpen(false);
             }}
-            className="flex items-center gap-2 mt-2 hover:text-[#C3B1E1] transition-colors"
+            className={`flex items-center justify-center w-14 h-14 rounded-2xl mt-4 hover:scale-105 transition-all cursor-pointer relative shadow-md ${
+              theme === 'light' ? 'bg-[#F3E8FF]' : 'bg-[#EADDF8]'
+            }`}
           >
-            <span>კალათა 🛒</span>
+            <img src={kalataIcon} alt="კალათა" className="w-8 h-8 object-contain" />
+            
+            {/* წითელი ნიშნული (Badge) */}
             {totalItems > 0 && (
-              <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full shadow-md">
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[11px] px-2 py-0.5 rounded-full shadow-md font-bold border-2 border-white">
                 {totalItems}
               </span>
             )}
-          </button>
+          </div>
         </div>
       )}
 
+      {/* კალათის დროპდაუნი */}
       {isCartOpen && (
         <>
           <div 
