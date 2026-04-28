@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from '../components/ThemeContext'; // 🌟 შემოვიტანეთ კონტექსტი
+import { ThemeContext } from '../components/ThemeContext';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const { theme } = useContext(ThemeContext); // 🌟 ვიღებთ თემას
+  const { theme } = useContext(ThemeContext);
 
   return (
     <footer className={`py-8 border-t transition-colors duration-500 ${

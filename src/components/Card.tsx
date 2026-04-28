@@ -1,4 +1,3 @@
-// src/components/Card.tsx
 import React, { useContext } from "react";
 import { ThemeContext } from "./ThemeContext"; 
 

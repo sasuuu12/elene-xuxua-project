@@ -24,8 +24,6 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
     <header className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 border-b antialiased transform-gpu ${theme === 'light' ? 'bg-white/80 border-[#C3B1E1]/20 text-[#4A0E4E]' : 'bg-[#1a1a1a]/90 border-gray-800 text-[#EADDF8]'
       } backdrop-blur-sm md:backdrop-blur-md`}>
       <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-
-        {/* ლოგო */}
         <Link to="/" className="flex items-center transition-transform hover:scale-105">
           <img src={logoIcon} alt="Mouveline Logo" className="h-14 w-14 md:h-16 md:w-16 object-cover rounded-full shadow-md border-2 border-purple-100" />
         </Link>
@@ -45,29 +43,21 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
           </div>
 
           <div className="flex items-center gap-4">
-
-            {/* 🌙 თემის შეცვლის ღილაკი */}
             <div className="flex">
               <ThemeToggle />
             </div>
-
-            {/* 🌟 კალათა (კომპიუტერისთვის) - ჩასმულია ლამაზ ყუთში */}
             <div
               onClick={() => setIsCartOpen(!isCartOpen)}
               className={`hidden md:flex relative items-center justify-center w-11 h-11 rounded-xl focus:outline-none hover:scale-105 transition-all cursor-pointer shadow-sm ${theme === 'light' ? 'bg-[#F3E8FF] hover:bg-[#EADDF8]' : 'bg-[#EADDF8] hover:bg-white'
                 }`}
             >
               <img src={kalataIcon} alt="კალათა" className="w-6 h-6 object-contain" />
-
-              {/* წითელი ნიშნული (Badge) */}
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[11px] px-2 py-0.5 rounded-full shadow-md font-bold border-2 border-white">
                   {totalItems}
                 </span>
               )}
             </div>
-
-            {/* Hamburger ღილაკი მობილურისთვის */}
             <button
               className="md:hidden text-2xl focus:outline-none"
               onClick={() => setIsOpen(!isOpen)}
@@ -77,9 +67,6 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
           </div>
         </div>
       </nav>
-
-
-      {/* მობილურის მენიუ */}
       {isOpen && (
         <div className={`md:hidden flex flex-col items-center gap-4 py-6 font-bold border-t ${theme === 'light' ? 'bg-white border-[#C3B1E1]/20' : 'bg-[#1a1a1a] border-gray-800'
           }`}>
@@ -93,8 +80,6 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
               {link.label || link.name}
             </Link>
           ))}
-
-          {/* 🌟 კალათა (მობილურისთვის) - ჩასმულია ლამაზ ყუთში */}
           <div
             onClick={() => {
               setIsCartOpen(!isCartOpen);
@@ -104,8 +89,6 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
               }`}
           >
             <img src={kalataIcon} alt="კალათა" className="w-8 h-8 object-contain" />
-
-            {/* წითელი ნიშნული (Badge) */}
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[11px] px-2 py-0.5 rounded-full shadow-md font-bold border-2 border-white">
                 {totalItems}
@@ -114,8 +97,6 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
           </div>
         </div>
       )}
-
-      {/* კალათის დროპდაუნი */}
       {isCartOpen && (
         <>
           <div

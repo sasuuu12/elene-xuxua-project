@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-// Custom Hook: თვალს ადევნებს გვერდის შეცვლას, ასქროლებს ზევით და ცვლის სათაურს
 export const usePageTracking = () => {
   const { pathname } = useLocation();
 

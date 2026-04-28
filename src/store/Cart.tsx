@@ -56,8 +56,6 @@ const Cart: React.FC = () => {
         theme === 'light' ? 'text-[#4A0E4E] border-gray-100' : 'text-[#EADDF8] border-gray-700'
       }`}>
         <span className="flex items-center gap-2">კალათა 🛒</span>
-        
-        {/* ნივთების რაოდენობის ბეჯი */}
         <span className="text-xs font-bold bg-red-500 text-white px-2 py-1 rounded-full shadow-sm">
           {cartItems.length} ნივთი
         </span>
@@ -87,8 +85,6 @@ const Cart: React.FC = () => {
                 </div>
                 
                 <div className="flex justify-between items-center mt-1">
-                  
-                  {/* რაოდენობის კონტროლი */}
                   <div className={`flex items-center gap-3 rounded-lg px-3 py-1 font-bold ${
                     theme === 'light' ? 'bg-[#F3E8FF] text-[#4A0E4E]' : 'bg-[#1a1a1a] text-[#EADDF8]'
                   }`}>
@@ -116,8 +112,6 @@ const Cart: React.FC = () => {
               </div>
             ))}
           </div>
-
-          {/* ქვედა სექცია: ჯამი და ღილაკი */}
           <div className={`mt-4 pt-4 border-t-2 ${theme === 'light' ? 'border-[#4A0E4E]' : 'border-[#C3B1E1]'}`}>
             <div className={`text-right text-xl flex justify-between items-center font-black mb-4 ${
               theme === 'light' ? 'text-[#4A0E4E]' : 'text-[#EADDF8]'

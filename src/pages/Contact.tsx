@@ -19,7 +19,7 @@ const Contact: React.FC = () => {
       script.async = true;
       document.body.appendChild(script);
     };
-    // Defer loading until browser is idle
+
     if ('requestIdleCallback' in window) {
       (window as any).requestIdleCallback(loadScript);
     } else {
@@ -84,8 +84,6 @@ const Contact: React.FC = () => {
       <div className={`container mx-auto max-w-5xl flex flex-col lg:flex-row rounded-2xl overflow-hidden shadow-2xl transition-colors duration-500 ${
         theme === 'light' ? 'bg-white border border-[#C3B1E1]/30' : 'bg-[#1F1D2B] border border-gray-800'
       }`}>
-        
-        {/* 🗺️ მარცხენა მხარე: საკონტაქტო ინფო და რუკა */}
         <div className={`w-full lg:w-5/12 p-8 md:p-10 flex flex-col justify-between gap-8 border-b lg:border-b-0 lg:border-r ${
           theme === 'light' ? 'border-gray-100' : 'border-gray-800/50'
         }`}>
@@ -156,8 +154,6 @@ const Contact: React.FC = () => {
             ></iframe>
           </div>
         </div>
-
-        {/* 📝 მარჯვენა მხარე: ფორმა */}
         <div className={`w-full lg:w-7/12 p-8 md:p-12 flex flex-col justify-center ${
           theme === 'light' ? 'bg-[#F9F6FC]/50' : 'bg-[#1F1D2B]'
         }`}>
@@ -264,7 +260,7 @@ const Contact: React.FC = () => {
                   value={formData.message}
                   onChange={handleChange}
                   placeholder="დაწერეთ თქვენი შეტყობინება აქ..."
-                  rows={4} // სიმაღლის განსაზღვრა
+                  rows={4}
                   className={`w-full px-4 py-3.5 rounded-lg border outline-none font-medium transition-all duration-300 resize-none ${
                     theme === 'light' 
                       ? "bg-white text-gray-800 border-gray-200 focus:border-purple-600 focus:ring-4 focus:ring-purple-600/10" 

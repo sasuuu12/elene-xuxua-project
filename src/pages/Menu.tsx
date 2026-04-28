@@ -15,16 +15,16 @@ export interface MenuItem {
   imageUrl: string;
 }
 
-// 🌟 1. ვქმნით ლექსიკონს: ქართული სიტყვა -> ინგლისური კატეგორია API-სთვის
+
 const categoryMap: Record<string, string> = {
-  "ყველა": "Seafood", // "ყველა"-ს დროს default-ად Seafood წამოიღოს
+  "ყველა": "Seafood",
   "ზღვის საჭმელი": "Seafood",
   "ქათამი": "Chicken",
   "დესერტი": "Dessert",
   "პასტა": "Pasta"
 };
 
-// ეკრანზე გამოსაჩენი ღილაკებისთვის ვიღებთ მხოლოდ ქართულ სახელებს
+
 const categories = Object.keys(categoryMap); 
 
 const Menu: React.FC = () => {
@@ -40,7 +40,7 @@ const Menu: React.FC = () => {
     const fetchMenu = async () => {
       setIsLoading(true);
       try {
-        // 🌟 2. API-ს ვუგზავნით ნათარგმნ ინგლისურ სიტყვას (მაგ. Seafood)
+
         const apiCategory = categoryMap[activeCategory];
         const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${apiCategory}`);
         const data = await response.json();
@@ -51,7 +51,7 @@ const Menu: React.FC = () => {
             name: meal.strMeal,
             description: "ახალი და გემრიელი კერძი ჩვენი შეფ-მზარეულისგან",
             price: Math.floor(Math.random() * 20) + 10,
-            // 🌟 3. ბარათის ბეჯზე ვწერთ ქართულ სახელს
+
             category: activeCategory === "ყველა" ? "ზღვის საჭმელი" : activeCategory, 
             imageUrl: meal.strMealThumb
           }));

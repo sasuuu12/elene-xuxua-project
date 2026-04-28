@@ -26,7 +26,6 @@ const PageSettings = () => {
   return null;
 };
 
-// Extracted grid item component to reduce re-renders
 const GridFoodItem = ({ image, alt, label, price, id, title, dispatch }: {
   image: string; alt: string; label: string; price: number; id: number; title: string; dispatch: ReturnType<typeof useAppDispatch>;
 }) => (
@@ -52,11 +51,7 @@ const HomePageContent = ({ theme }: { theme: string }) => {
 
   return (
     <div className={`min-h-screen pt-20 pb-20 transition-colors duration-500 animate-fade-in ${theme === 'light' ? 'bg-gradient-to-b from-white to-[#F3E8FF]' : 'bg-gradient-to-b from-[#1a1a1a] to-[#2d1b36]'}`}>
-
-      {/* 🌟 ბანერი */}
       <div className="relative w-full h-[400px] md:h-[600px] overflow-hidden mb-16 shadow-2xl">
-
-        {/* უკანა ფონის სურათი (რესტორანი) — LCP element */}
         <img
           src={Restaurant}
           alt="Mouveline Restaurant"
@@ -65,11 +60,7 @@ const HomePageContent = ({ theme }: { theme: string }) => {
           height="800"
           className="w-full h-full object-cover"
         />
-
-        {/* შავი გამჭვირვალე ფენა */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#4A0E4E]/40"></div>
-
-        {/* ტექსტი და ღილაკი */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
           <div className="backdrop-blur-sm md:backdrop-blur-md bg-white/10 p-8 md:p-16 rounded-3xl border border-white/20 shadow-[0_0_50px_rgba(74,14,78,0.3)] animate-slide-up hover:bg-white/15 transition-colors duration-500">
             <h1 className="text-4xl md:text-8xl font-black mb-2 tracking-tighter italic text-transparent bg-clip-text bg-gradient-to-r from-white via-[#EADDF8] to-white drop-shadow-2xl">
@@ -95,8 +86,6 @@ const HomePageContent = ({ theme }: { theme: string }) => {
 
 
       <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 auto-rows-[200px] md:auto-rows-[250px]">
-
-        {/* 0. რესტორანი — იყენებს იგივე cached სურათს */}
         <div className="col-span-1 sm:col-span-2 md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-[2rem] shadow-2xl border-4 border-white/10 min-h-[200px] md:min-h-full">
           <img
             src={Restaurant}
@@ -113,8 +102,6 @@ const HomePageContent = ({ theme }: { theme: string }) => {
             <h3 className="text-2xl md:text-3xl font-black mt-2 md:mt-3 text-white">დახვეწილი გარემო</h3>
           </div>
         </div>
-
-        {/* კერძების ბარათები */}
         <GridFoodItem image={xachapuri} alt="Khachapuri" label="ხაჭაპური" price={18} id={101} title="აჭარული ხაჭაპური" dispatch={dispatch} />
         <GridFoodItem image={xinkali} alt="Xinkali" label="ხინკალი" price={20} id={102} title="ქალაქური ხინკალი (10ც)" dispatch={dispatch} />
         <GridFoodItem image={salmoni} alt="Salmoni" label="სალმონი" price={25} id={104} title="სალმონი" dispatch={dispatch} />

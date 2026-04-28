@@ -1,4 +1,3 @@
-// src/pages/NotFoundPage.jsx
 import { Link } from 'react-router-dom';
 
 function NotFoundPage() {
@@ -10,7 +9,6 @@ function NotFoundPage() {
         სამწუხაროდ, მისამართი რომელსაც ეძებთ, არ არსებობს ან წაშლილია.
       </p>
       
-      {/* 🌟 ღილაკი მთავარ გვერდზე დასაბრუნებლად */}
       <Link 
         to="/" 
         style={{

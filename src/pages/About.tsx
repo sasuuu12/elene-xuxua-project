@@ -21,8 +21,6 @@ const About: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
-
-          {/* სურათი მარცხნივ */}
           <div className={`rounded-3xl overflow-hidden shadow-2xl border-4 transition-colors duration-500 ${
             theme === 'light' ? 'border-white shadow-purple-200' : 'border-gray-800 shadow-purple-900/20'
           }`}>
@@ -35,8 +33,6 @@ const About: React.FC = () => {
               className="w-full h-[400px] md:h-[500px] object-cover hover:scale-105 transition-transform duration-700"
             />
           </div>
-
-          {/* ტექსტი მარჯვნივ */}
           <div className={`flex flex-col gap-6 text-lg leading-relaxed text-justify md:text-left transition-colors duration-500 ${
             theme === 'light' ? 'text-gray-600' : 'text-gray-300'
           }`}>
