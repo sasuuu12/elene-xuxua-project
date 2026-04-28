@@ -1,3 +1,28 @@
+@import "./bpg-nino-medium-caps-master/css/bpg-nino-medium-caps.min.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    font-family: 'BPG Nino Medium Caps', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+}
+
+/* Optimize paint performance for animated elements */
+.animate-fade-in,
+.animate-slide-up,
+.animate-zoom-in {
+    will-change: opacity, transform;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

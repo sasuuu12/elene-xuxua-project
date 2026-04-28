@@ -19,7 +19,7 @@ const Card: React.FC<CardProps> = ({ title, image, description, price, item, onA
     <div className={`rounded-2xl shadow-lg overflow-hidden border transition-all duration-300 flex flex-col h-full relative animate-fade-in ${
       theme === 'light' ? 'bg-white border-purple-100' : 'bg-[#1f1f1f] border-gray-800'
     }`}>
-      <img src={image} loading='lazy' alt={title} className="w-full h-48 object-cover" />
+      <img src={image} loading='lazy' decoding='async' alt={title} width="400" height="300" className="w-full h-48 object-cover" />
       
       <div className="p-5 flex flex-col flex-grow">
         <h3 className="text-lg font-bold mb-2">{title}</h3>

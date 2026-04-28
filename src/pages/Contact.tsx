@@ -5,22 +5,30 @@ const Contact: React.FC = () => {
   const { theme } = useContext(ThemeContext); 
 
 
-  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', subject: 'ზოგადი კითხვა', date: '', guests: '', message: '' });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = "https://cdn.jsdelivr.net/gh/noumanqamar450/alertbox@main/version/1.0.2/alertbox.min.js";
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
+    const scriptSrc = "https://cdn.jsdelivr.net/gh/noumanqamar450/alertbox@main/version/1.0.2/alertbox.min.js";
+    if (document.querySelector(`script[src="${scriptSrc}"]`)) {
+      return;
+    }
+    const loadScript = () => {
+      const script = document.createElement('script');
+      script.src = scriptSrc;
+      script.async = true;
+      document.body.appendChild(script);
     };
+    // Defer loading until browser is idle
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(loadScript);
+    } else {
+      setTimeout(loadScript, 200);
+    }
   }, []);
 
   const validate = () => {
-    let newErrors: { [key: string]: string } = {};
+    const newErrors: { [key: string]: string } = {};
     if (!formData.firstName) newErrors.firstName = "სახელის მითითება სავალდებულოა!";
     else if (formData.firstName.length < 2) newErrors.firstName = "სახელი უნდა შეიცავდეს მინიმუმ 2 სიმბოლოს";
     else if (formData.firstName.length > 15) newErrors.firstName = "სახელი ძალიან გრძელია";
@@ -31,6 +39,11 @@ const Contact: React.FC = () => {
     if (!formData.email) newErrors.email = "ელ-ფოსტის მითითება სავალდებულოა!";
     else if (!emailRegex.test(formData.email)) newErrors.email = "ელ-ფოსტის ფორმატი არასწორია (აკლია @)";
 
+    if (formData.subject === 'მაგიდის დაჯავშნა') {
+      if (!formData.date) newErrors.date = "მიუთითეთ თარიღი და დრო!";
+      if (!formData.guests) newErrors.guests = "მიუთითეთ სტუმრების რაოდენობა!";
+    }
+
     if (!formData.message) newErrors.message = "შეტყობინების ველის შევსება სავალდებულოა!";
     else if (formData.message.length < 10) newErrors.message = "შეტყობინება უნდა შეიცავდეს მინიმუმ 10 სიმბოლოს";
 
@@ -38,8 +51,7 @@ const Contact: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // 🌟 3. დაემატა HTMLTextAreaElement ტიპი
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
@@ -52,7 +64,7 @@ const Contact: React.FC = () => {
         (window as any).alertbox.render({
           alertIcon: 'success',
           title: 'მადლობა!',
-          message: 'თქვენი შეტყობინება წარმატებით გაიგზავნა.',
+          message: formData.subject === 'მაგიდის დაჯავშნა' ? 'მაგიდა წარმატებით დაიჯავშნა! ჩვენი გუნდი მალე დაგიკავშირდებათ.' : 'თქვენი შეტყობინება წარმატებით გაიგზავნა.',
           btnTitle: 'ოკ',
           themeColor: '#86459e'
         });
@@ -60,7 +72,7 @@ const Contact: React.FC = () => {
         alert('მადლობა! შეტყობინება წარმატებით გაიგზავნა.');
       }
 
-      setFormData({ firstName: '', lastName: '', email: '', message: '' });
+      setFormData({ firstName: '', lastName: '', email: '', subject: 'ზოგადი კითხვა', date: '', guests: '', message: '' });
     }
   };
 
@@ -140,8 +152,7 @@ const Contact: React.FC = () => {
               height="100%"
               style={{ border: 0 }}
               loading="lazy"
-              allowFullScreen
-              src="https://maps.google.com/maps?q=Kutaisi&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=42.55%2C42.22%2C42.80%2C42.33&layer=mapnik&marker=42.2667%2C42.6944"
             ></iframe>
           </div>
         </div>
@@ -187,6 +198,62 @@ const Contact: React.FC = () => {
                 </div>
               ))}
 
+              <div className="flex flex-col gap-2">
+                <label className={`text-sm font-semibold ml-1 ${
+                  theme === 'light' ? 'text-[#4A0E4E]' : 'text-[#ABBBC2]'
+                }`}>თემა</label>
+                <select
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3.5 rounded-lg border outline-none font-medium transition-all duration-300 ${
+                      theme === 'light' 
+                        ? "bg-white text-gray-800 border-gray-200 focus:border-purple-600 focus:ring-4 focus:ring-purple-600/10" 
+                        : "bg-[#2D303E] text-white border-[#393C49] focus:border-purple-600 focus:ring-4 focus:ring-purple-600/20"
+                    }`}
+                >
+                  <option value="ზოგადი კითხვა">ზოგადი კითხვა</option>
+                  <option value="მაგიდის დაჯავშნა">მაგიდის დაჯავშნა</option>
+                  <option value="კორპორატიული შეკვეთა">კორპორატიული შეკვეთა</option>
+                </select>
+              </div>
+
+              {formData.subject === 'მაგიდის დაჯავშნა' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label className={`text-sm font-semibold ml-1 ${theme === 'light' ? 'text-[#4A0E4E]' : 'text-[#ABBBC2]'}`}>თარიღი და დრო</label>
+                    <input 
+                      type="datetime-local" 
+                      name="date" 
+                      value={formData.date} 
+                      onChange={handleChange} 
+                      className={`w-full px-4 py-3.5 rounded-lg border outline-none font-medium transition-all duration-300 ${
+                        theme === 'light' 
+                          ? "bg-white text-gray-800 border-gray-200 focus:border-purple-600 focus:ring-4 focus:ring-purple-600/10" 
+                          : "bg-[#2D303E] text-white border-[#393C49] focus:border-purple-600 focus:ring-4 focus:ring-purple-600/20 placeholder-[#ABBBC2]"
+                      } ${errors.date ? "!border-red-500 focus:!ring-red-500/20" : ""}`}
+                    />
+                    {errors.date && <span className="text-red-500 text-xs ml-1 font-bold animate-pulse">{errors.date}</span>}
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className={`text-sm font-semibold ml-1 ${theme === 'light' ? 'text-[#4A0E4E]' : 'text-[#ABBBC2]'}`}>სტუმრების რაოდენობა</label>
+                    <input 
+                      type="number" 
+                      name="guests" 
+                      min="1" 
+                      value={formData.guests} 
+                      onChange={handleChange} 
+                      placeholder="მაგ. 4" 
+                      className={`w-full px-4 py-3.5 rounded-lg border outline-none font-medium transition-all duration-300 ${
+                        theme === 'light' 
+                          ? "bg-white text-gray-800 border-gray-200 focus:border-purple-600 focus:ring-4 focus:ring-purple-600/10" 
+                          : "bg-[#2D303E] text-white border-[#393C49] focus:border-purple-600 focus:ring-4 focus:ring-purple-600/20 placeholder-[#ABBBC2]"
+                      } ${errors.guests ? "!border-red-500 focus:!ring-red-500/20" : ""}`}
+                    />
+                    {errors.guests && <span className="text-red-500 text-xs ml-1 font-bold animate-pulse">{errors.guests}</span>}
+                  </div>
+                </div>
+              )}
               <div className="flex flex-col gap-2">
                 <label className={`text-sm font-semibold ml-1 ${
                   theme === 'light' ? 'text-[#4A0E4E]' : 'text-[#ABBBC2]'

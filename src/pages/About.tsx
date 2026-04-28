@@ -12,7 +12,7 @@ const About: React.FC = () => {
       <div className="container mx-auto max-w-6xl">
 
         <div className="text-center mb-16">
-          <h2 className={`text-4xl font-extrabold mb-4 uppercase tracking-tighter transition-colors duration-500 ${
+          <h2 className={`text-4xl font-extrabold mb-4 pt-2 leading-relaxed uppercase tracking-tighter transition-colors duration-500 ${
             theme === 'light' ? 'text-[#4A0E4E]' : 'text-[#EADDF8]'
           }`}>
             ჩვენს შესახებ
@@ -27,11 +27,11 @@ const About: React.FC = () => {
             theme === 'light' ? 'border-white shadow-purple-200' : 'border-gray-800 shadow-purple-900/20'
           }`}>
             <img
-              fetchPriority="high" 
+              fetchPriority="high"
               src={interiorImage}
               alt="Mouveline რესტორნის ინტერიერი"
-              width="1200"
-              height="800"
+              width="800"
+              height="600"
               className="w-full h-[400px] md:h-[500px] object-cover hover:scale-105 transition-transform duration-700"
             />
           </div>

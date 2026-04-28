@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"BPG Nino Medium Caps"', 'sans-serif'],
+      },
       colors: {
         mouveline: {
           dark: '#4A0E4E',   // შენი მთავარი მუქი ფერი

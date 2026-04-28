@@ -89,7 +89,7 @@ const Menu: React.FC = () => {
       <div className="container mx-auto max-w-6xl">
         
         <div className="text-center mb-12">
-          <h2 className={`text-4xl font-extrabold mb-4 uppercase tracking-tighter transition-colors duration-500 ${
+          <h2 className={`text-4xl font-extrabold mb-4 pt-2 leading-relaxed uppercase tracking-tighter transition-colors duration-500 ${
             theme === 'light' ? 'text-[#4A0E4E]' : 'text-[#EADDF8]'
           }`}>
             ჩვენი ციფრული მენიუ
@@ -130,7 +130,7 @@ const Menu: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {finalFilteredItems.map((item) => (
                   <div key={item.id} className="relative group">
-                    <div className="absolute top-4 left-4 z-10">
+                    <div className="absolute top-4 left-4">
                       <Badge text={item.category} variant="secondary" />
                     </div>
                     
